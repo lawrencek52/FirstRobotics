@@ -1,0 +1,25 @@
+From cedd49117d4e5a44819208823e2d438d2fcab367 Mon Sep 17 00:00:00 2001
+From: Scott Dunnington <sdunnington@d3engineering.com>
+Date: Fri, 26 May 2017 20:35:22 -0400
+Subject: [PATCH 6/6] d3-camera-mezz: set status to ok for camera ports
+
+Change-Id: I52592468113aacad9108f5eea4bd2b274a4a927b
+---
+ arch/arm64/boot/dts/qcom/d3-camera-mezzanine.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/d3-camera-mezzanine.dtsi b/arch/arm64/boot/dts/qcom/d3-camera-mezzanine.dtsi
+index 35d6a85e7bb4..bf05b9310399 100644
+--- a/arch/arm64/boot/dts/qcom/d3-camera-mezzanine.dtsi
++++ b/arch/arm64/boot/dts/qcom/d3-camera-mezzanine.dtsi
+@@ -8,6 +8,7 @@
+ 				data-lanes = <0 2>;
+ 				qcom,settle-cnt = <0xe>;
+ 				remote-endpoint = <&ov5640_ep>;
++				status = "ok";
+ 			};
+ 		};
+ 		/* The camera driver requires all listed ports to have attached devices to bind them
+-- 
+2.11.0
+

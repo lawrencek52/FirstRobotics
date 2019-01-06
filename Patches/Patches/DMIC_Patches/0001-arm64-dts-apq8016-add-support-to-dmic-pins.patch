@@ -1,0 +1,93 @@
+From d3460522ff392930e7757399f6e0f9511de62fbb Mon Sep 17 00:00:00 2001
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Date: Wed, 7 Jun 2017 07:10:18 +0200
+Subject: [PATCH 1/5] arm64: dts: apq8016: add support to dmic pins
+
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+---
+ arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi  | 13 +++++++++----
+ arch/arm64/boot/dts/qcom/msm8916-pins.dtsi | 25 +++++++++++++++++++++++++
+ 2 files changed, 34 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi b/arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi
+index 5687590a6151..b1a7cefe9bd0 100644
+--- a/arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi
++++ b/arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi
+@@ -22,7 +22,7 @@
+ / {
+ 	aliases {
+ 		serial0 = &blsp1_uart2;
+-		serial1 = &blsp1_uart1;
++	//	serial1 = &blsp1_uart1;
+ 		usid0 = &pm8916_0;
+ 		i2c0	= &blsp_i2c2;
+ 		i2c1	= &blsp_i2c6;
+@@ -42,7 +42,7 @@
+ 
+ 		serial@78af000 {
+ 			label = "LS-UART0";
+-			status = "okay";
++			status = "disabled";
+ 			pinctrl-names = "default", "sleep";
+ 			pinctrl-0 = <&blsp1_uart1_default>;
+ 			pinctrl-1 = <&blsp1_uart1_sleep>;
+@@ -281,13 +281,18 @@
+                         reg-names = "mic-iomux", "spkr-iomux";
+ 
+                         status = "okay";
+-                        pinctrl-0 = <&cdc_pdm_lines_act &ext_sec_tlmm_lines_act &ext_mclk_tlmm_lines_act>;
++                        pinctrl-0 = <&cdc_pdm_lines_act &ext_sec_tlmm_lines_act &ext_mclk_tlmm_lines_act &cdc_dmic_lines_act>;
+                         pinctrl-1 = <&cdc_pdm_lines_sus &ext_sec_tlmm_lines_sus &ext_mclk_tlmm_lines_sus>;
+                         pinctrl-names = "default", "sleep";
+                         qcom,model = "DB410c";
+                         qcom,audio-routing =
+                                 "AMIC2", "MIC BIAS Internal2",
+-                                "AMIC3", "MIC BIAS External1";
++                                "AMIC3", "MIC BIAS External1",
++				"DMIC1", "MIC BIAS Internal1",
++				"DMIC1", "Digital Mic1",
++				"DMIC2", "MIC BIAS Internal1",
++				"DMIC2", "Digital Mic2";
++
+ 			external-dai-link@0 {
+ 				link-name = "ADV7533";
+ 				cpu { /* QUAT */
+diff --git a/arch/arm64/boot/dts/qcom/msm8916-pins.dtsi b/arch/arm64/boot/dts/qcom/msm8916-pins.dtsi
+index 4cb0b5834143..4855586943f1 100644
+--- a/arch/arm64/boot/dts/qcom/msm8916-pins.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8916-pins.dtsi
+@@ -13,6 +13,31 @@
+ 
+ &msmgpio {
+ 
++
++	dmic_clk_default: dmic_clk_default {
++		pinmux {
++			function = "dmic0_clk";
++			pins = "gpio0";
++		};
++		pinconf {
++			pins = "gpio0";
++			drive-strength = <8>;
++			//bias-disable;
++		};
++	};
++
++	dmic_data_default: dmic_data_default {
++		pinmux {
++			function = "dmic0_data";
++			pins = "gpio1";
++		};
++		pinconf {
++			pins = "gpio1";
++			drive-strength = <8>;
++			//bias-disable;
++		};
++	};
++
+ 	blsp1_uart1_default: blsp1_uart1_default {
+ 		pinmux {
+ 			function = "blsp_uart1";
+-- 
+2.11.0
+

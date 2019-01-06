@@ -1,0 +1,4 @@
+cd kernel
+sudo make INSTALL_MOD_STRIP=1 modules_install KERNELRELEASE=`make kernelversion`-linaro-lt-qcom
+sudo dd if=boot-db410c.img of=/dev/mmcblk0p8
+

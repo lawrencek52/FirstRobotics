@@ -1,0 +1,64 @@
+From 0cf98148e782dd828e5b9df5fea9f0a7281da65b Mon Sep 17 00:00:00 2001
+From: Scott Dunnington <sdunnington@d3engineering.com>
+Date: Tue, 16 May 2017 11:25:19 -0400
+Subject: [PATCH 2/6] ov5640: update driver to build for kernel version 4.9
+
+Change-Id: I8addb893540443abb1796c20e49d5192c4d1d8b1
+Signed-off-by: Scott Dunnington <sdunnington@d3engineering.com>
+---
+ arch/arm64/configs/defconfig | 2 +-
+ drivers/media/i2c/ov5640.c   | 9 +--------
+ 2 files changed, 2 insertions(+), 9 deletions(-)
+
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index e0a993a5bb51..006b197caa37 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -315,7 +315,7 @@ CONFIG_V4L_MEM2MEM_DRIVERS=y
+ CONFIG_VIDEO_QCOM_VENUS=m
+ # CONFIG_MEDIA_SUBDRV_AUTOSELECT is not set
+ CONFIG_VIDEO_OV5645=m
+-CONFIG_VIDEO_OV5640=y
++CONFIG_VIDEO_OV5640=m
+ CONFIG_DRM=y
+ CONFIG_DRM_I2C_CH7006=m
+ CONFIG_DRM_I2C_SIL164=m
+diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+index cb2bfe19f64d..3fa284d1ec0d 100644
+--- a/drivers/media/i2c/ov5640.c
++++ b/drivers/media/i2c/ov5640.c
+@@ -128,7 +128,6 @@ struct ov5640 {
+ 	bool hflip;   /* Initially set horizontal flip */
+ 	bool vflip;   /* Initially set vertical flip */
+ 	bool use_cci; /* indicate that CCI driver hack should be used */
+-	struct v4l2_subdev *cci;
+ };
+ 
+ static inline struct ov5640 *to_ov5640(struct v4l2_subdev *sd)
+@@ -1080,10 +1079,6 @@ static int ov5640_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+ 
+ static const struct v4l2_subdev_core_ops ov5640_core_ops = {
+ 	.s_power = ov5640_s_power,
+-	.g_ctrl = v4l2_subdev_g_ctrl,
+-	.s_ctrl = v4l2_subdev_s_ctrl,
+-	.queryctrl = v4l2_subdev_queryctrl,
+-	.querymenu = v4l2_subdev_querymenu,
+ };
+ 
+ static const struct v4l2_subdev_video_ops ov5640_video_ops = {
+@@ -1267,11 +1262,9 @@ static int ov5640_probe(struct i2c_client *client,
+ 
+ 	ov5640->sd.internal_ops = &ov5640_subdev_internal_ops;
+ 	ov5640->sd.dev = &client->dev;
+-
+ 	ov5640->pad.flags = MEDIA_PAD_FL_SOURCE;
+-	ov5640->sd.entity.type = MEDIA_ENT_T_V4L2_SUBDEV_SENSOR;
+ 
+-	ret = media_entity_init(&ov5640->sd.entity, 1, &ov5640->pad, 0);
++	ret = media_entity_pads_init(&ov5640->sd.entity, 1, &ov5640->pad);
+ 	if (ret < 0) {
+ 		dev_err(dev, "could not register media entity\n");
+ 		goto free_ctrl;
+-- 
+2.11.0
+

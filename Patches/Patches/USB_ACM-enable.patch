@@ -1,0 +1,11 @@
+--- kernel/.config.old	2017-08-15 14:51:14.748551080 +0000
++++ kernel/.config	2017-08-16 17:43:38.518372930 +0000
+@@ -3944,7 +3944,7 @@
+ #
+ # USB Device Class drivers
+ #
+-# CONFIG_USB_ACM is not set
++CONFIG_USB_ACM=m
+ # CONFIG_USB_PRINTER is not set
+ # CONFIG_USB_WDM is not set
+ # CONFIG_USB_TMC is not set

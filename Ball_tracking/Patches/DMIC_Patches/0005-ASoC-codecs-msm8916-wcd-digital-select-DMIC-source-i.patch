@@ -1,0 +1,53 @@
+From 50ee1e8fbf7e5a3612be87abcd1403c572ea7371 Mon Sep 17 00:00:00 2001
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Date: Wed, 7 Jun 2017 06:51:45 +0200
+Subject: [PATCH 5/5] ASoC: codecs: msm8916-wcd-digital: select DMIC source in
+ CIC filter path
+
+This patch fixes a missing selection of DMIC in CIC filter source path.
+Without this patch dmic is not functional.
+
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+---
+ sound/soc/codecs/msm8916-wcd-digital.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/sound/soc/codecs/msm8916-wcd-digital.c b/sound/soc/codecs/msm8916-wcd-digital.c
+index e061ee2752fc..5c3850008374 100644
+--- a/sound/soc/codecs/msm8916-wcd-digital.c
++++ b/sound/soc/codecs/msm8916-wcd-digital.c
+@@ -168,6 +168,9 @@
+ 
+ #define LPASS_CDC_TX2_VOL_CTL_CFG		(0x2A8)
+ #define LPASS_CDC_TX1_MUX_CTL			(0x28C)
++#define TX_MUX_CTL_ADC_DMIC_SEL_MASK		BIT(0)
++#define TX_MUX_CTL_ADC_DMIC_SEL_DMIC		BIT(0)
++#define TX_MUX_CTL_ADC_DMIC_SEL_ADC		0
+ #define TX_MUX_CTL_CUT_OFF_FREQ_MASK		GENMASK(5, 4)
+ #define TX_MUX_CTL_CUT_OFF_FREQ_SHIFT		4
+ #define TX_MUX_CTL_CF_NEG_3DB_4HZ		(0x0 << 4)
+@@ -439,13 +442,21 @@ static int msm8916_wcd_digital_enable_dmic(struct snd_soc_dapm_widget *w,
+ 		snd_soc_update_bits(codec, LPASS_CDC_CLK_DMIC_B1_CTL,
+ 				    DMIC_B1_CTL_DMIC0_CLK_SEL_MASK,
+ 				    DMIC_B1_CTL_DMIC0_CLK_SEL_DIV3);
++
+ 		switch (dmic) {
+ 		case 1:
++			snd_soc_update_bits(codec, LPASS_CDC_TX1_MUX_CTL,
++					    TX_MUX_CTL_ADC_DMIC_SEL_MASK,
++					    TX_MUX_CTL_ADC_DMIC_SEL_DMIC);
+ 			snd_soc_update_bits(codec, LPASS_CDC_TX1_DMIC_CTL,
+ 					    TXN_DMIC_CTL_CLK_SEL_MASK,
+ 					    TXN_DMIC_CTL_CLK_SEL_DIV3);
++
+ 			break;
+ 		case 2:
++			snd_soc_update_bits(codec, LPASS_CDC_TX2_MUX_CTL,
++					    TX_MUX_CTL_ADC_DMIC_SEL_MASK,
++					    TX_MUX_CTL_ADC_DMIC_SEL_DMIC);
+ 			snd_soc_update_bits(codec, LPASS_CDC_TX2_DMIC_CTL,
+ 					    TXN_DMIC_CTL_CLK_SEL_MASK,
+ 					    TXN_DMIC_CTL_CLK_SEL_DIV3);
+-- 
+2.11.0
+
