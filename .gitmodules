@@ -1,0 +1,3 @@
+[submodule "Ball_tracking/Ball_tracking/IMU/erle-brain-2-imu"]
+	path = Ball_tracking/Ball_tracking/IMU/erle-brain-2-imu
+	url = https://github.com/erlerobot/erle-brain-2-imu

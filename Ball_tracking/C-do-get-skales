@@ -1,6 +1,0 @@
-cd kernel
-time git clone git://codeaurora.org/quic/kernel/skales
-#time wget http://builds.96boards.org/snapshots/dragonboard410c/linaro/debian/236/initrd.img-`make kernelversion`-linaro-lt-qcom
-#wget http://builds.96boards.org/releases/dragonboard410c/linaro/debian/17.04/initrd.img-`make kernelversion`linaro-lt-qcom
-wget http://builds.96boards.org/releases/dragonboard410c/linaro/debian/17.06.1/initrd.img-`make kernelversion`-linaro-lt-qcom
-

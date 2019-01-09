@@ -1,8 +1,0 @@
-cd kernel
-./skales/mkbootimg --kernel arch/arm64/boot/Image \
-	--ramdisk initrd.img-`make kernelversion`-linaro-lt-qcom \
-	--output boot-db410c.img \
-	--dt dt.img \
-	--pagesize 2048 \
-	--base 0x80000000 \
-	--cmdline "root=/dev/disk/by-partlabel/rootfs rw rootwait console=ttyMSM0,115200n8"

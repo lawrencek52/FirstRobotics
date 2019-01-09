@@ -1,3 +1,0 @@
-cd kernel
-./skales/dtbTool -o dt.img -s 2048 arch/arm64/boot/dts/qcom/
-

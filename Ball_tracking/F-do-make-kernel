@@ -1,3 +1,0 @@
-cd kernel
-time make -j4 Image dtbs modules KERNELRELEASE=`make kernelversion`-linaro-lt-qcom
-
