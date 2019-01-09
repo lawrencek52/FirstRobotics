@@ -13,12 +13,12 @@ sudo apt-get install -y libjpeg62-turbo-dev libtiff5-dev
 #fetch and build libjasper
 mkdir jasper
 cd jasper
-wget  http://www.ece.uvic.ca/~frodo/jasper/software/jasper-2.0.12.tar.gz 
-tar -vzxf  jasper-2.0.12.tar.gz 
-cd jasper-2.0.12
+wget  http://www.ece.uvic.ca/~frodo/jasper/software/jasper-2.0.14.tar.gz 
+tar -vzxf  jasper-2.0.14.tar.gz 
+cd jasper-2.0.14
 mkdir BUILD
 cd BUILD
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DCMAKE_SKIP_INSTALL_RPATH=YES -DCMAKE_INSTALL_DOCDIR=/usr/share/doc/jasper-2.0.12 ..  
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DCMAKE_SKIP_INSTALL_RPATH=YES -DCMAKE_INSTALL_DOCDIR=/usr/share/doc/jasper-2.0.14 ..  
 make
 sudo make install
 cd ../../..
@@ -52,26 +52,26 @@ sudo apt-get install -y doxygen
 sudo apt-get install -y unzip wget
 
 
-# INSTALL THE LIBRARY (YOU CAN CHANGE '3.2.0' FOR THE LAST STABLE VERSION)
+# INSTALL THE LIBRARY (YOU CAN CHANGE '3.4.4' FOR THE LAST STABLE VERSION)
 
-#wget https://github.com/opencv/opencv/archive/3.2.0.zip
-#unzip 3.2.0.zip
-#rm 3.2.0.zip
+#wget https://github.com/opencv/opencv/archive/3.4.4.zip
+#unzip 3.4.4.zip
+#rm 3.4.4.zip
 #mv opencv-3.2.0 OpenCV
+git clone https://github.com/opencv/opencv_contrib.git
 git clone https://github.com/opencv/opencv.git
 cd opencv
-git checkout master
 mkdir build
 cd build
-cmake -DWITH_LIBV4L=ON -DWITH_QT=ON -DWITH_OPENGL=ON -DFORCE_VTK=ON -DWITH_TBB=ON -DWITH_GDAL=ON -DWITH_XINE=ON -DBUILD_EXAMPLES=ON -DWITH_OPENMP=ON -DWITH_GSTREAMER=ON -DWITH_OPENCL=ON ..
-make -j4
+cmake -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules -DWITH_LIBV4L=ON -DWITH_QT=ON -DWITH_OPENGL=ON -DFORCE_VTK=ON -DWITH_TBB=ON -DWITH_GDAL=ON -DWITH_XINE=ON -DBUILD_EXAMPLES=ON -DWITH_OPENMP=ON -DWITH_GSTREAMER=ON -DWITH_OPENCL=ON ..
+make -j1
 sudo make install
 sudo ldconfig
 cd ../..
 
 
 #install the imutils (which depend on mtools and the OpenCV just built)
-sudo apt-get install -y v4l-utils
+sudo apt-get install -y v4l-utils python3-pip
 pip3 install imtools
 pip3 install imutils
 

@@ -1,11 +1,27 @@
-echo Creating 1.5GB swapfile
-sudo dd if=/dev/zero of=/swapfile count=1500 bs=1M
-sudo chmod 600 /swapfile
-sudo mkswap /swapfile
-sudo swapon /swapfile
-sudo sed -i '$a /swapfile none swap sw 0 0\n' /etc/fstab
-sudo sed -i '$a export ARCH=arm64\n' ~/.bashrc
-sudo sed -i '$a export MONITOR_PORT=/dev/tty96B0\n' ~/.bashrc
-sudo sed -i '$a export JAVA_TOOL_OPTIONS="-Dgnu.io.rxtx.SerialPorts=/dev/tty96B0"\n' ~/.bashrc
-sudo sed -i '$a export PYTHONPATH=/usr/local/lib/python3.5/dist-packages:/usr/local/lib/python2.7/site-packages\n' ~/.bashrc
-sudo sed -i '$a xset -dpms; xset s off\n' ~/.bashrc
+#echo Creating 1.5GB swapfile
+#sudo dd if=/dev/zero of=/swapfile count=1500 bs=1M
+#sudo chmod 600 /swapfile
+#sudo mkswap /swapfile
+#sudo swapon /swapfile
+#sudo sed -i '$a /swapfile none swap sw 0 0\n' /etc/fstab
+echo Creating ZRam swapfile
+cat << 'EOF' >zram.sh
+#!/bin/bash
+modprobe zram num_devices=4
+totalmem=`free | grep -e "^Mem:" | awk '{printf $2}'`
+mem=$(( ($totalmem)* 1024 * 3))
+echo $mem >/sys/block/zram0/disksize
+mkswap /dev/zram0
+swapon -p 5 /dev/zram0
+EOF
+sudo mv zram.sh /usr/bin/zram.sh
+sudo chmod +x /usr/bin/zram.sh
+sudo sed -i '$i /usr/bin/zram.sh &' /etc/rc.local
+
+sudo sed -i '$a export ARCH=arm64' ~/.bashrc
+sudo sed -i '$a export MONITOR_PORT=/dev/tty96B0' ~/.bashrc
+sudo sed -i '$a export PATH=~/bin:$PATH' ~/.bashrc
+sudo sed -i '$a export JAVA_TOOL_OPTIONS="-Dgnu.io.rxtx.SerialPorts=/dev/tty96B0"' ~/.bashrc
+sudo sed -i '$a export _JAVA_OPTIONS="-Djava.library.path=/home/linaro/.minecraft/natives/"' ~/.bashrc
+sudo sed -i '$a export PYTHONPATH=/usr/local/lib/python3.5/dist-packages:/usr/local/lib/python2.7/site-packages' ~/.bashrc
+sudo sed -i '$a xset s off\n' ~/.bashrc
