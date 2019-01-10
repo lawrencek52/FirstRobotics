@@ -1,0 +1,16 @@
+#!/bin/bash
+sudo apt install -y gradle openjdk-8-jdk libx11-dev xorg-dev
+sudo ln -s /usr/lib/jvm/java-8-openjdk-arm64/lib/aarch64/libjawt.so /usr/lib/libjawt.so
+git clone https://github.com/LWJGL/lwjgl
+cd lwjgl
+ant generate-all
+ant compile_native
+mkdir -p ~/.minecraft/natives
+cp libs/linux/liblwjgl.so libs/linux/libopenal.so ~/.minecraft/natives
+cd ..
+mkdir -p ~/bin
+cp Minecraft/Minecraft.jar ~/bin
+cat << 'EOF' >~/bin/minecraft
+java -jar ~/bin/Minecraft.jar
+EOF
+chmod +x ~/bin/minecraft

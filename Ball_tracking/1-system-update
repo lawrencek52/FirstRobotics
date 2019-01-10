@@ -1,6 +1,0 @@
-echo "Updating system to latest versions (apt-get update, upgrade, dist-upgrade)"
-sudo apt-get update
-sudo apt-get upgrade -y
-sudo apt-get dist-upgrade -u -y
-sudo apt-get clean
-sudo apt-get autoremove
