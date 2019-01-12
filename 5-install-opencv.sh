@@ -1,81 +1,128 @@
+# Define OpenCV Version to install 
+OpenCV_Version="3.4.4"
 
-# INSTALL THE DEPENDENCIES
+# Clean build directories
+rm -rf opencv/build
+rm -rf opencv_contrib/build
 
-# GUI (if you want to use GTK instead of Qt, replace 'qt5-default' with 'libgtkglext1-dev' and remove '-DWITH_QT=ON' option in CMake):
-sudo apt-get install -y qt5-default 
-sudo apt-get install -y libqt5opengl5-dev 
-sudo apt-get install -y python3-pyqt5.qtopengl python3-opengl
+# Save current working directory
+cwd=$(pwd)
 
-# Media I/O:
-sudo apt-get install -y zlib1g-dev libwebp-dev libpng-dev libtiff5-dev libopenexr-dev libgdal-dev
-sudo apt-get install -y libjpeg62-turbo-dev libtiff5-dev 
-
+#libjasper1 doesn't seem to be available for arm64 Debian, so we
 #fetch and build libjasper
+if [ ! -d jasper ]; then
 mkdir jasper
-cd jasper
-wget  http://www.ece.uvic.ca/~frodo/jasper/software/jasper-2.0.14.tar.gz 
-tar -vzxf  jasper-2.0.14.tar.gz 
-cd jasper-2.0.14
-mkdir BUILD
-cd BUILD
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DCMAKE_SKIP_INSTALL_RPATH=YES -DCMAKE_INSTALL_DOCDIR=/usr/share/doc/jasper-2.0.14 ..  
-make
-sudo make install
-cd ../../..
+	cd jasper
+	wget  http://www.ece.uvic.ca/~frodo/jasper/software/jasper-2.0.14.tar.gz 
+	tar -vzxf  jasper-2.0.14.tar.gz 
+	cd jasper-2.0.14
+	mkdir BUILD
+	cd BUILD
+	cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DCMAKE_SKIP_INSTALL_RPATH=YES -DCMAKE_INSTALL_DOCDIR=/usr/share/doc/jasper-2.0.14 ..  
+	make
+	sudo make install
+	cd ../../..
+fi
 
-# Video I/O:
-sudo apt-get install -y libdc1394-22-dev libavcodec-dev libavformat-dev libswscale-dev libtheora-dev libvorbis-dev libxvidcore-dev libx264-dev yasm libopencore-amrnb-dev libopencore-amrwb-dev libv4l-dev libxine2-dev
-sudo apt-get install -y libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
-sudo apt-get install -y libxvidcore-dev libx264-dev
+## Install dependencies
+sudo apt -y install build-essential cmake pkg-config yasm
+sudo apt -y install git gfortran
+sudo apt -y install libpng-dev libjpeg62-turbo-dev
+sudo apt -y install software-properties-common
+#sudo add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"
 
-# Parallelism and linear algebra libraries:
-sudo apt-get install -y libtbb-dev libeigen3-dev
-sudo apt-get install -y libcblas-dev gfortran
-sudo apt-get install -y libopenblas-dev liblapack-dev
+sudo apt -y install libtiff-dev
+sudo apt -y install libqt5opengl5-dev
+sudo apt -y install libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev
+sudo apt -y install libxine2-dev libv4l-dev
+cd /usr/include/linux
+sudo ln -s -f ../libv4l1-videodev.h videodev.h
+cd "$cwd"
 
-# gstreamer, opengl and vtk
-sudo apt-get install -y libgstreamer1.0-0
+sudo apt -y install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+sudo apt -y install libgtk2.0-dev libtbb-dev qt5-default
+sudo apt -y install libatlas-base-dev
+sudo apt -y install libfaac-dev libmp3lame-dev libtheora-dev
+sudo apt -y install libvorbis-dev libxvidcore-dev
+sudo apt -y install libopencore-amrnb-dev libopencore-amrwb-dev
+sudo apt -y install libavresample-dev
+sudo apt -y install x264 v4l-utils
+sudo apt -y install libeigen3-dev 
+
+# opengl and vtk
 sudo apt-get install -y freeglut3-dev libglew-dev libglm-dev mesa-common-dev
 sudo apt-get install -y libvtk6-qt-dev python-vtk6
 
-# Python:
-sudo apt-get install -y python3-dev python3-tk python3-numpy
-sudo apt-get install -y python3-scipy python3-matplotlib
-#wget https://bootstrap.pypa.io/get-pip.py
-#sudo python get-pip.py
+# Optional dependencies
+sudo apt -y install libprotobuf-dev protobuf-compiler
+sudo apt -y install libgoogle-glog-dev libgflags-dev
+sudo apt -y install libgphoto2-dev libeigen3-dev libhdf5-dev doxygen
 
-# Java:
-sudo apt-get install -y ant default-jdk
+sudo apt -y install python3-dev python3-pip python3-dev
+sudo apt -y install python3-tk python3-numpy
+sudo apt -y install python3-testresources
+sudo apt -y install python3-venv
 
-# Documentation:
-sudo apt-get install -y doxygen
-sudo apt-get install -y unzip wget
+if [ ! -d OpenCV-"$OpenCV_Version"-py3 ]; then
+	cd $cwd
+	############ For Python 3 ############
+	# create virtual environment
+#	python3 -m venv OpenCV-"$OpenCV_Version"-py3
+#	echo "# Virtual Environment Wrapper" >> ~/.bashrc
+#	echo "alias workoncv-$OpenCV_Version=\"source $cwd/OpenCV-$OpenCV_Version-py3/bin/activate\"" >> ~/.bashrc
+#	source "$cwd"/OpenCV-"$OpenCV_Version"-py3/bin/activate
+
+	mkdir OpenCV-"$OpenCV_Version"-py3
+	cd OpenCV-"$OpenCV_Version"-py3
 
 
-# INSTALL THE LIBRARY (YOU CAN CHANGE '3.4.4' FOR THE LAST STABLE VERSION)
+	# now install python libraries within this virtual environment
+	pip3 install wheel numpy scipy matplotlib scikit-image scikit-learn ipython dlib
 
-#wget https://github.com/opencv/opencv/archive/3.4.4.zip
-#unzip 3.4.4.zip
-#rm 3.4.4.zip
-#mv opencv-3.2.0 OpenCV
-git clone https://github.com/opencv/opencv_contrib.git
+	# quit virtual environment
+#	deactivate
+	######################################
+fi
+
+cd $cwd
 git clone https://github.com/opencv/opencv.git
+cd opencv
+git checkout "$OpenCV_Version"
+cd ..
+
+git clone https://github.com/opencv/opencv_contrib.git
+cd opencv_contrib
+git checkout "$OpenCV_Version"
+cd ..
+
 cd opencv
 mkdir build
 cd build
-cmake -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules -DWITH_LIBV4L=ON -DWITH_QT=ON -DWITH_OPENGL=ON -DFORCE_VTK=ON -DWITH_TBB=ON -DWITH_GDAL=ON -DWITH_XINE=ON -DBUILD_EXAMPLES=ON -DWITH_OPENMP=ON -DWITH_GSTREAMER=ON -DWITH_OPENCL=ON ..
-make -j1
-sudo make install
-sudo ldconfig
-cd ../..
 
+#cmake -D CMAKE_BUILD_TYPE=RELEASE \
+#            -D INSTALL_C_EXAMPLES=ON \
+#            -D INSTALL_PYTHON_EXAMPLES=ON \
+#            -D WITH_TBB=ON \
+#            -D WITH_V4L=ON \
+#        -D WITH_QT=ON \
+#        -D WITH_OPENGL=ON \
+#        -D BUILD_EXAMPLES=ON ..
+#        -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
+#            -D CMAKE_INSTALL_PREFIX=/usr/local \
+#            -D OPENCV_PYTHON3_INSTALL_PATH=$cwd/OpenCV-$OpenCV_Version-py3/lib/python3.5/site-packages \
 
-#install the imutils (which depend on mtools and the OpenCV just built)
-sudo apt-get install -y v4l-utils python3-pip
-pip3 install imtools
-pip3 install imutils
+cmake -DWITH_LIBV4L=ON \
+      -DWITH_QT=ON \
+      -DCMAKE_BUILD_TYPE=RELEASE \
+      -DWITH_OPENGL=ON \
+      -DFORCE_VTK=ON \
+      -DWITH_TBB=ON \
+      -DWITH_GDAL=ON \
+      -DWITH_XINE=ON \
+      -DBUILD_EXAMPLES=ON \
+      -DWITH_OPENMP=ON \
+      -DWITH_GSTREAMER=ON \
+      -DWITH_OPENCL=ON ..
 
-# EXECUTE SOME OPENCV EXAMPLES AND COMPILE A DEMONSTRATION
-
-# To complete this step, please visit 'http://milq.github.io/install-opencv-ubuntu-debian'.
-
+#make -j3
+#sudo make install
