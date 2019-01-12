@@ -10,12 +10,12 @@ sudo apt install libavc1394-dev libaa1-dev libcaca-dev \
 sudo apt install -y libasound2-dev libcdparanoia-dev libvorbisidec-dev \
        	libvisual-0.4-dev libopus-dev libpango1.0-dev libxv-dev
 apt-get source gstreamer1.0-plugins-good
-cd gst-plugins-good1.0-1.14.4
+cd gst-plugins-good1.0-1.12.2
 
 ## edit Rules
-sed -i '180a \\t--enable-v4l2-probe \\' debian/rules
-sed -i '181a \\t--without-libv4l2 \\' debian/rules
+sed -i '166a \\t--enable-v4l2-probe \\' debian/rules
+sed -i '166a \\t--without-libv4l2 \\' debian/rules
 #
 time debuild -b -uc -us
-time sudo dpkg -i ../gstreamer1.0-plugins-good_1.14.4*_arm64.deb
+time sudo dpkg -i ../gstreamer1.0-plugins-good_1.12.2*_arm64.deb
 
