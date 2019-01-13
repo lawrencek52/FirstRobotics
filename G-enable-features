@@ -21,6 +21,10 @@ if [ ! -d dt-update ]; then
 	git clone https://github.com/96boards/dt-update.git
 	cd dt-update/
 	make 
+	cd ..
+fi
+if [ ! -f /bin/dbootimg ]; then
+	cd dt-update/
 	sudo make install
 	cd ..
 fi
