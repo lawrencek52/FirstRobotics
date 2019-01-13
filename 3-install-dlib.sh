@@ -49,7 +49,7 @@ if [ $install = 1 ]; then
 	fi
 	cd dlib
 	#pip by default builds in ~/.cache, we want to build in ./dlib
-	echo building dlib this takes over an hour
+	echo building dlib this takes about 3 and a half hours
 	export XDG_CACHE_HOME=~/workspace/FirstRobotics
-	pip3 install dlib
+	time pip3 install dlib
 fi

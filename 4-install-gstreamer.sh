@@ -36,7 +36,7 @@ sudo apt install libavc1394-dev libaa1-dev libcaca-dev \
 	libjpeg62-turbo-dev libsoup2.4-dev libspeex-dev libtaglib-cil-dev \
        	libwavpack-dev libx11-dev
 sudo apt install -y libasound2-dev libcdparanoia-dev libvorbisidec-dev \
-       	libvisual-0.4-dev libopus-dev libpango1.0-dev libxv-dev
+       	libvisual-0.4-dev libopus-dev libpango1.0-dev libxv-dev libvpx-dev
 fi
 
 if [ $download = 1 ]; then
@@ -55,6 +55,7 @@ if [ $download = 1 ]; then
 fi
 
 if [ $install = 1 ]; then
+	cd gstreamer/gst-plugins-good1.0-1.12.2
 	time sudo dpkg -i ../gstreamer1.0-plugins-good_1.12.2*_arm64.deb
 fi
 
