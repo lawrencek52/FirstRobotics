@@ -1,3 +1,4 @@
+#!/bin/bash
 echo Installing basic utilities and python
 #sudo apt-get install -y man-db manpages manpages-dev
 sudo apt-get install -y autoconf automake libtool

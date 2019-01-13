@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 echo "script to Update the kernel and utilities to latest Versions"
 echo "    -B - also update the ~/.bashrc with some useful constants"
 

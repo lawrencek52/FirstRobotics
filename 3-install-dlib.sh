@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 echo "script to create install dlib"
 echo "    -A - apt-get required packages for dlib, only needs to be done once"
 echo "    -D - Download and build dlib, only necessary if not already on your SDCard"
@@ -49,7 +49,7 @@ if [ $install = 1 ]; then
 	fi
 	cd dlib
 	#pip by default builds in ~/.cache, we want to build in ./dlib
-	# how to change this?
+	echo building dlib this takes over an hour
 	export XDG_CACHE_HOME=~/workspace/FirstRobotics
-	time pip3 install dlib
+	pip3 install dlib
 fi

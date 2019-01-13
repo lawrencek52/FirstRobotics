@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 echo "script to create install gstreamer"
 echo "    -A - apt-get required packages for gstreamer, only needs to be done once"
 echo "    -D - Download and build gstreamer, only necessary if not already on your SDCard"

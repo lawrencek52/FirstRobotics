@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 echo "script to create a swapfile, select the type of swapfile you want"
 echo "    -Z - zram swapfile"
 echo "    -E - 1.5GB swapfile in the onboard eMMC memory"
