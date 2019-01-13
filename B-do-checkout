@@ -10,4 +10,4 @@ cd kernel
 #time git checkout -b kernel-17.06.1 debian-qcom-dragonboard410c-17.06.1
 #time git checkout -b kernel-17.09 debian-qcom-dragonboard410c-17.09
 
-time git checkout -b build-492 0407ad53548e
+time git checkout -b build-491 0407ad53548e
