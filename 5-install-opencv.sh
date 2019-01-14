@@ -146,13 +146,13 @@ if [ $build = 1 ]; then
 fi
 if [ $install = 1 ]; then
 	cd "$cwd"
-	cd jasper/BUILD
+	cd jasper/jasper-2.0.14/BUILD
 	sudo make install
 	cd "$cwd"
 	cd OpenCV-"$OpenCV_Version"-py3
 	# now install python libraries
 	export XDG_CACHE_HOME=~/workspace/FirstRobotics
-	pip3 install wheel numpy scipy matplotlib scikit-image scikit-learn ipython dlib
+	time sudo pip3 --cache-dir /usr/linaro/workspace/FirstRobotics/pip install wheel numpy scipy matplotlib scikit-image ipython dlib
 	cd "$cwd"
 	cd opencv/build
 	echo Installing openCV
