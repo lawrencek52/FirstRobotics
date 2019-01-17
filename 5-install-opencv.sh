@@ -90,16 +90,6 @@ if [ $apt = 1 ]; then
 	sudo apt -y install python3-venv
 fi
 
-if [ ! -d OpenCV-"$OpenCV_Version"-py3 ]; then
-	cd $cwd
-	############ For Python 3 ############
-	mkdir OpenCV-"$OpenCV_Version"-py3
-	cd OpenCV-"$OpenCV_Version"-py3
-
-	# now install python libraries
-	time sudo pip3 --cache-dir /usr/linaro/workspace/FirstRobotics/pip install wheel scipy matplotlib scikit-image ipython
-	######################################
-fi
 
 if [ $download = 1 ]; then
 	cd $cwd
@@ -136,9 +126,6 @@ if [ $download = 1 ]; then
 fi
 if [ $build = 1 ]; then
 	cd "$cwd"
-	# Clean build directories
-	rm -rf opencv/build
-	rm -rf opencv_contrib/build
 	cd opencv/build
 	echo Building openCV
 	make -j3
@@ -151,10 +138,8 @@ if [ $install = 1 ]; then
 		sudo make install
 		cd "$cwd"
 	fi
-	cd OpenCV-"$OpenCV_Version"-py3
 	# now install python libraries
 	time sudo pip3 --cache-dir /usr/linaro/workspace/FirstRobotics/pip install wheel scipy matplotlib scikit-image ipython
-	cd "$cwd"
 	cd opencv/build
 	echo Installing openCV
 	make -j3
