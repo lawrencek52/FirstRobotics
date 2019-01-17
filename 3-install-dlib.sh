@@ -30,14 +30,17 @@ shift $((OPTIND-1))
 echo "apt=$apt, download=$download, install=$install, Leftovers: $@"
 
 if [ $apt = 1 ]; then
+	$ sudo apt-get install build-essential cmake
+$ sudo apt-get install libopenblas-dev liblapack-dev
+$ sudo apt-get install libx11-dev libgtk-3-dev
+$ sudo apt-get install python python-dev python-pip
+$ sudo apt-get install python3 python3-dev python3-pip
 	# install the required packages for dlib
 	sudo apt-get install -y build-essential cmake
 	sudo apt-get install -y libopenblas-dev liblapack-dev
-	sudo apt-get install -y libx11-dev
-	sudo apt-get install -y libgtk-3-dev libjpeg-dev
-	sudo apt-get install -y libboost-all-dev
-	sudo apt-get install -y python3-pip python3-setuptools python3-wheel
-	sudo apt-get install -y python3-numpy python3-scipy python3-pil python3-skimage
+#	sudo apt-get install -y libx11-dev libgtk-3-dev
+	sudo apt-get install -y python python-dev python-pip
+	sudo apt-get install -y python3 python3-dev python3-pip
 fi
 
 if [ $install = 1 ]; then

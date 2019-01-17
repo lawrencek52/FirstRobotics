@@ -30,11 +30,12 @@ shift $((OPTIND-1))
 echo "apt=$apt, download=$download, install=$install, Leftovers: $@"
 if [ $apt = 1 ]; then
 sudo apt-get install -y fakeroot devscripts quilt
-sudo apt install libavc1394-dev libaa1-dev libcaca-dev \
+sudo apt install -y libavc1394-dev libaa1-dev libcaca-dev \
        	libcairo2-dev libdv4-dev libflac-dev libgdk-pixbuf2.0-dev \
        	libjack-dev libpng-dev libpulse-dev libshout3-dev \
 	libjpeg62-turbo-dev libsoup2.4-dev libspeex-dev libtaglib-cil-dev \
-       	libwavpack-dev libx11-dev
+       	libwavpack-dev
+#	libx11-dev
 sudo apt install -y libasound2-dev libcdparanoia-dev libvorbisidec-dev \
        	libvisual-0.4-dev libopus-dev libpango1.0-dev libxv-dev libvpx-dev
 fi

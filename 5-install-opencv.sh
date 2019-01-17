@@ -60,13 +60,12 @@ if [ $apt = 1 ]; then
 	sudo apt -y install git gfortran
 	sudo apt -y install libpng-dev libjpeg62-turbo-dev
 	sudo apt -y install software-properties-common
-	sudo apt -y install libtiff-dev
-	sudo apt -y install libqt5opengl5-dev
+	sudo apt -y install libtiff-dev libqt5opengl5-dev
 	sudo apt -y install libavcodec-dev libavformat-dev libswscale-dev
 	sudo apt -y install libxine2-dev libv4l-dev libdc1394-22-dev
-	cd /usr/include/linux
-	sudo ln -s -f ../libv4l1-videodev.h videodev.h
-	cd "$cwd"
+#	cd /usr/include/linux
+#	sudo ln -s -f ../libv4l1-videodev.h videodev.h
+#	cd "$cwd"
 
 	sudo apt -y install libgtk2.0-dev libtbb-dev qt5-default
 	sudo apt -y install libatlas-base-dev
@@ -79,7 +78,7 @@ if [ $apt = 1 ]; then
 
 	# opengl and vtk
 	sudo apt-get install -y freeglut3-dev libglew-dev libglm-dev
-	sudo apt-get install -y libvtk6-qt-dev python-vtk6 mesa-common-dev
+	sudo apt-get install -y libvtk7-qt-dev python3-vtk7 mesa-common-dev
 
 	# Optional dependencies
 	sudo apt -y install libprotobuf-dev protobuf-compiler
@@ -122,9 +121,10 @@ if [ $download = 1 ]; then
 
 	cmake -DWITH_LIBV4L=ON \
 	      -DWITH_QT=ON \
+	      -DCMAKE_POLICY_DEFAULT_CMP0072=NEW \
 	      -DCMAKE_BUILD_TYPE=RELEASE \
 	      -DWITH_OPENGL=ON \
-	      -DFORCE_VTK=ON \
+	      -DWITH_VTK=OFF \
 	      -DWITH_TBB=ON \
 	      -DWITH_GDAL=ON \
 	      -DWITH_XINE=ON \
@@ -153,7 +153,7 @@ if [ $install = 1 ]; then
 	fi
 	cd OpenCV-"$OpenCV_Version"-py3
 	# now install python libraries
-	time sudo pip3 --cache-dir /usr/linaro/workspace/FirstRobotics/pip install wheel numpy scipy matplotlib scikit-image ipython dlib
+	time sudo pip3 --cache-dir /usr/linaro/workspace/FirstRobotics/pip install wheel scipy matplotlib scikit-image ipython
 	cd "$cwd"
 	cd opencv/build
 	echo Installing openCV

@@ -31,7 +31,7 @@ echo "emmc=$emmc, sdcard=$sdcard, zram=$zram, Leftovers: $@"
 
 if [ $emmc = 1 ]; then
 	echo "Creating 1.5GB swapfile on eMMC"
-	sudo dd if=/dev/zero of=/swapfile count=1500 bs=1M
+	sudo dd if=/dev/zero of=/swapfile count=1500 bs=1M status=progress
 	sudo chmod 600 /swapfile
 	sudo mkswap /swapfile
 	sudo swapon /swapfile
