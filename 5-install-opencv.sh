@@ -97,8 +97,7 @@ if [ ! -d OpenCV-"$OpenCV_Version"-py3 ]; then
 	cd OpenCV-"$OpenCV_Version"-py3
 
 	# now install python libraries
-	export XDG_CACHE_HOME=~/workspace/FirstRobotics
-	pip3 install wheel numpy scipy matplotlib scikit-image scikit-learn ipython dlib
+	time sudo pip3 --cache-dir /usr/linaro/workspace/FirstRobotics/pip install wheel scipy matplotlib scikit-image ipython
 	######################################
 fi
 
@@ -125,6 +124,7 @@ if [ $download = 1 ]; then
 	      -DCMAKE_BUILD_TYPE=RELEASE \
 	      -DWITH_OPENGL=ON \
 	      -DWITH_VTK=OFF \
+	      -DBUILD_opencv_viz=OFF \
 	      -DWITH_TBB=ON \
 	      -DWITH_GDAL=ON \
 	      -DWITH_XINE=ON \

@@ -53,10 +53,10 @@ if [ $download = 1 ]; then
 	sed -i '178a \\t--without-libv4l2 \\' debian/rules
 	#
 	time debuild -b -uc -us
+	cd ../..
 fi
 
 if [ $install = 1 ]; then
-	cd gstreamer/gst-plugins-good1.0-1.14.4
-	time sudo dpkg -i ../gstreamer1.0-plugins-good_1.14.4*_arm64.deb
+	time sudo dpkg -i gstreamer/gstreamer1.0-plugins-good_1.14.4*_arm64.deb
 fi
 
