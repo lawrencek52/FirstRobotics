@@ -81,7 +81,7 @@ if [ $apt = 1 ]; then
 	sudo apt-get install -y libvtk7-qt-dev python3-vtk7 mesa-common-dev
 
 	# now install python libraries
-	sudo apt install python3-scipy python3-matplotlib python3-skimage python3-ipython
+	sudo apt -y install python3-scipy python3-matplotlib python3-skimage python3-ipython
 
 	# Optional dependencies
 	sudo apt -y install libprotobuf-dev protobuf-compiler
@@ -115,6 +115,7 @@ if [ $download = 1 ]; then
 	      -DWITH_QT=ON \
 	      -DCMAKE_POLICY_DEFAULT_CMP0072=NEW \
 	      -DCMAKE_BUILD_TYPE=RELEASE \
+	      -DCMAKE_INSTALL_PREFIX=/usr/local \
 	      -DWITH_OPENGL=ON \
 	      -DWITH_VTK=OFF \
 	      -DBUILD_opencv_viz=OFF \
@@ -131,7 +132,7 @@ if [ $build = 1 ]; then
 	cd "$cwd"
 	cd opencv/build
 	echo Building openCV
-	make -j3
+	make -j2
 	cd "$cwd"
 fi
 if [ $install = 1 ]; then
@@ -145,6 +146,7 @@ if [ $install = 1 ]; then
 #	time sudo pip3 --cache-dir /usr/linaro/workspace/FirstRobotics/pip install wheel scipy matplotlib scikit-image ipython
 	cd opencv/build
 	echo Installing openCV
-	make -j3
+	make -j2
 	sudo make install
+	sudo ldconfig
 fi
